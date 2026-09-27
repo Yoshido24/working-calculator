@@ -37,7 +37,19 @@
     .buttons {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      grid-template-areas:
+        "clear divide multiply subtract"
+        "seven eight nine add"
+        "four five six add"
+        "one two three equals"
+        "zero zero decimal equals";
       gap: 8px;
+    }
+
+    .display-label {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: #555;
     }
 
     button {
@@ -59,36 +71,51 @@
       color: #fff;
     }
 
-    button.zero {
-      grid-column: span 2;
-    }
+    .key-clear { grid-area: clear; }
+    .key-divide { grid-area: divide; }
+    .key-multiply { grid-area: multiply; }
+    .key-subtract { grid-area: subtract; }
+    .key-add { grid-area: add; }
+    .key-equals { grid-area: equals; }
+    .key-zero { grid-area: zero; }
+    .key-decimal { grid-area: decimal; }
+    .key-seven { grid-area: seven; }
+    .key-eight { grid-area: eight; }
+    .key-nine { grid-area: nine; }
+    .key-four { grid-area: four; }
+    .key-five { grid-area: five; }
+    .key-six { grid-area: six; }
+    .key-one { grid-area: one; }
+    .key-two { grid-area: two; }
+    .key-three { grid-area: three; }
   </style>
 </head>
 <body>
   <main class="calculator">
-    <output class="display" id="display" aria-label="Calculator display" aria-live="polite" aria-atomic="true">0</output>
+    <div class="display-label" id="display-label">Display</div>
+    <output class="display" id="display" aria-labelledby="display-label" aria-live="polite" aria-atomic="true">0</output>
     <div class="buttons">
-      <button class="clear" data-action="clear" aria-label="Clear">C</button>
-      <button data-action="decimal" aria-label="Decimal point">.</button>
-      <button class="operator" data-action="operator" data-value="/" aria-label="Divide">÷</button>
-      <button class="operator" data-action="operator" data-value="*" aria-label="Multiply">×</button>
+      <button class="clear key-clear" data-action="clear" aria-label="Clear">C</button>
+      <button class="operator key-divide" data-action="operator" data-value="/" aria-label="Divide">÷</button>
+      <button class="operator key-multiply" data-action="operator" data-value="*" aria-label="Multiply">×</button>
+      <button class="operator key-subtract" data-action="operator" data-value="-" aria-label="Subtract">−</button>
 
-      <button data-action="number" data-value="7">7</button>
-      <button data-action="number" data-value="8">8</button>
-      <button data-action="number" data-value="9">9</button>
-      <button class="operator" data-action="operator" data-value="-" aria-label="Subtract">−</button>
+      <button class="key-seven" data-action="number" data-value="7">7</button>
+      <button class="key-eight" data-action="number" data-value="8">8</button>
+      <button class="key-nine" data-action="number" data-value="9">9</button>
+      <button class="operator key-add" data-action="operator" data-value="+" aria-label="Add">+</button>
 
-      <button data-action="number" data-value="4">4</button>
-      <button data-action="number" data-value="5">5</button>
-      <button data-action="number" data-value="6">6</button>
-      <button class="operator" data-action="operator" data-value="+" aria-label="Add">+</button>
+      <button class="key-four" data-action="number" data-value="4">4</button>
+      <button class="key-five" data-action="number" data-value="5">5</button>
+      <button class="key-six" data-action="number" data-value="6">6</button>
 
-      <button data-action="number" data-value="1">1</button>
-      <button data-action="number" data-value="2">2</button>
-      <button data-action="number" data-value="3">3</button>
-      <button class="equals" data-action="equals" aria-label="Equals">=</button>
+      <button class="key-one" data-action="number" data-value="1">1</button>
+      <button class="key-two" data-action="number" data-value="2">2</button>
+      <button class="key-three" data-action="number" data-value="3">3</button>
 
-      <button class="zero" data-action="number" data-value="0">0</button>
+      <button class="zero key-zero" data-action="number" data-value="0">0</button>
+      <button class="key-decimal" data-action="decimal" aria-label="Decimal point">.</button>
+      <button class="equals key-equals" data-action="equals" aria-label="Equals">=</button>
     </div>
   </main>
 
