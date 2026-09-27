@@ -152,7 +152,7 @@
 
     const inputDecimal = () => {
       if (shouldResetDisplay) {
-        currentValue = '0';
+        currentValue = currentValue === 'Error' ? '0' : currentValue;
         shouldResetDisplay = false;
       }
       if (!currentValue.includes('.')) {
@@ -227,7 +227,7 @@
 
       if (action === 'number') {
         inputNumber(value);
-      } else if (action === 'decimal' && currentValue !== 'Error') {
+      } else if (action === 'decimal') {
         inputDecimal();
       } else if (action === 'operator' && currentValue !== 'Error') {
         chooseOperator(value);

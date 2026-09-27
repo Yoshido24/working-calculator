@@ -96,6 +96,19 @@ test('supports decimal math', () => {
   assert.equal(calculator.display.textContent, '3.5');
 });
 
+test('preserves result when decimal is pressed after equals', () => {
+  const calculator = createCalculator();
+
+  calculator.press('number', '2');
+  calculator.press('operator', '+');
+  calculator.press('number', '3');
+  calculator.press('equals');
+  calculator.press('decimal');
+  calculator.press('number', '5');
+
+  assert.equal(calculator.display.textContent, '5.5');
+});
+
 test('supports chained operators', () => {
   const calculator = createCalculator();
 
@@ -137,4 +150,17 @@ test('resets state after chained divide-by-zero error', () => {
   calculator.press('equals');
 
   assert.equal(calculator.display.textContent, '5');
+});
+
+test('starts a new decimal number after error', () => {
+  const calculator = createCalculator();
+
+  calculator.press('number', '9');
+  calculator.press('operator', '/');
+  calculator.press('number', '0');
+  calculator.press('equals');
+  calculator.press('decimal');
+  calculator.press('number', '5');
+
+  assert.equal(calculator.display.textContent, '0.5');
 });
