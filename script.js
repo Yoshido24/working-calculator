@@ -2,12 +2,21 @@ const display = document.querySelector('#display');
 const numberButtons = document.querySelectorAll('[data-number]');
 const operationButtons = document.querySelectorAll('[data-operation]');
 const clearButton = document.querySelector('[data-action="clear"]');
+const clearHistoryButton = document.querySelector('[data-action="clear-history"]');
 const equalsButton = document.querySelector('[data-action="equals"]');
+const historyList = document.querySelector('#history-list');
+const historyEmpty = document.querySelector('#history-empty');
 
 let currentValue = '';
 let storedValue = null;
 let operation = null;
 let waitingForValue = false;
+
+const operationSymbols = {
+  add: '+',
+  subtract: '-',
+  multiply: '×'
+};
 
 function updateDisplay() {
   display.textContent = currentValue || '0';
@@ -38,18 +47,34 @@ function chooseOperation(nextOperation) {
 function calculate() {
   if (storedValue === null || operation === null || currentValue === '') return;
 
+  const firstValue = storedValue;
+  const selectedOperation = operation;
   const secondValue = Number(currentValue);
-  const result = operation === 'add'
+  const result = selectedOperation === 'add'
     ? storedValue + secondValue
-    : operation === 'subtract'
+    : selectedOperation === 'subtract'
       ? storedValue - secondValue
       : storedValue * secondValue;
+
+  addHistoryItem(`${firstValue} ${operationSymbols[selectedOperation]} ${secondValue} = ${result}`);
 
   currentValue = String(result);
   storedValue = null;
   operation = null;
   waitingForValue = true;
   updateDisplay();
+}
+
+function addHistoryItem(calculation) {
+  const item = document.createElement('li');
+  item.textContent = calculation;
+  historyList.prepend(item);
+  historyEmpty.hidden = true;
+}
+
+function clearHistory() {
+  historyList.replaceChildren();
+  historyEmpty.hidden = false;
 }
 
 function clearCalculator() {
@@ -70,5 +95,6 @@ operationButtons.forEach((button) => {
 
 equalsButton.addEventListener('click', calculate);
 clearButton.addEventListener('click', clearCalculator);
+clearHistoryButton.addEventListener('click', clearHistory);
 
 updateDisplay();

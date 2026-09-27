@@ -11,6 +11,15 @@
     <h1>Simple Calculator</h1>
     <div class="display" id="display">0</div>
 
+    <section class="history" aria-labelledby="history-title">
+      <div class="history-header">
+        <h2 id="history-title">History</h2>
+        <button type="button" class="history-clear" data-action="clear-history">Clear</button>
+      </div>
+      <p class="history-empty" id="history-empty">No calculations yet.</p>
+      <ul id="history-list"></ul>
+    </section>
+
     <div class="buttons">
       <button type="button" class="clear" data-action="clear">Clear</button>
       <button type="button" class="operator" data-operation="subtract">-</button>
