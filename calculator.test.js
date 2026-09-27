@@ -14,6 +14,7 @@ const script = scriptMatch[1];
 
 const createCalculator = () => {
   const display = { textContent: '0' };
+  const displayLabel = { textContent: 'Display' };
   let clickHandler;
 
   const buttons = {
@@ -29,6 +30,9 @@ const createCalculator = () => {
       getElementById(id) {
         if (id === 'display') {
           return display;
+        }
+        if (id === 'display-label') {
+          return displayLabel;
         }
         throw new Error(`Unknown id: ${id}`);
       },
@@ -72,6 +76,11 @@ test('adds numbers', () => {
   calculator.press('equals');
 
   assert.equal(calculator.display.textContent, '5');
+});
+
+test('uses a visible label for the display', () => {
+  assert.match(html, /id="display-label"/);
+  assert.match(html, /id="display"[^>]*aria-labelledby="display-label"/);
 });
 
 test('supports decimal math', () => {
