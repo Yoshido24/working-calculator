@@ -41,7 +41,9 @@ function calculate() {
   const secondValue = Number(currentValue);
   const result = operation === 'add'
     ? storedValue + secondValue
-    : storedValue - secondValue;
+    : operation === 'subtract'
+      ? storedValue - secondValue
+      : storedValue * secondValue;
 
   currentValue = String(result);
   storedValue = null;
