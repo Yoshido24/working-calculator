@@ -105,6 +105,14 @@
       display.textContent = currentValue;
     };
 
+    const showError = () => {
+      currentValue = 'Error';
+      firstOperand = null;
+      operator = null;
+      shouldResetDisplay = true;
+      updateDisplay();
+    };
+
     const inputNumber = (value) => {
       if (shouldResetDisplay) {
         currentValue = value;
@@ -139,14 +147,19 @@
 
       if (operator && !shouldResetDisplay) {
         const result = calculate(firstOperand, inputValue, operator);
-        currentValue = result === 'Error' ? result : String(result);
+        if (result === 'Error') {
+          showError();
+          return;
+        }
+
+        currentValue = String(result);
         updateDisplay();
-        firstOperand = result === 'Error' ? null : Number(currentValue);
+        firstOperand = Number(currentValue);
       } else {
         firstOperand = inputValue;
       }
 
-      operator = currentValue === 'Error' ? null : nextOperator;
+      operator = nextOperator;
       shouldResetDisplay = true;
     };
 
@@ -164,9 +177,14 @@
       }
 
       const result = calculate(firstOperand, Number(currentValue), operator);
-      currentValue = result === 'Error' ? result : String(result);
+      if (result === 'Error') {
+        showError();
+        return;
+      }
+
+      currentValue = String(result);
       updateDisplay();
-      firstOperand = result === 'Error' ? null : Number(currentValue);
+      firstOperand = Number(currentValue);
       operator = null;
       shouldResetDisplay = true;
     };

@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(__dirname + '/index.html', 'utf8');
-const script = html.match(/<script>([\s\S]*)<\/script>/)[1];
+const script = html.match(/<script>([\s\S]*)<\/script>/i)[1];
 
 const createCalculator = () => {
   const display = { textContent: '0' };
@@ -105,4 +105,21 @@ test('shows error for division by zero and recovers after clear', () => {
 
   calculator.press('clear');
   assert.equal(calculator.display.textContent, '0');
+});
+
+test('resets state after chained divide-by-zero error', () => {
+  const calculator = createCalculator();
+
+  calculator.press('number', '9');
+  calculator.press('operator', '/');
+  calculator.press('number', '0');
+  calculator.press('operator', '+');
+  assert.equal(calculator.display.textContent, 'Error');
+
+  calculator.press('number', '2');
+  calculator.press('operator', '+');
+  calculator.press('number', '3');
+  calculator.press('equals');
+
+  assert.equal(calculator.display.textContent, '5');
 });
