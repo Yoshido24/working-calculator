@@ -109,6 +109,18 @@ test('preserves result when decimal is pressed after equals', () => {
   assert.equal(calculator.display.textContent, '5.5');
 });
 
+test('starts a new decimal operand after an operator', () => {
+  const calculator = createCalculator();
+
+  calculator.press('number', '2');
+  calculator.press('operator', '+');
+  calculator.press('decimal');
+  calculator.press('number', '5');
+  calculator.press('equals');
+
+  assert.equal(calculator.display.textContent, '2.5');
+});
+
 test('supports chained operators', () => {
   const calculator = createCalculator();
 
