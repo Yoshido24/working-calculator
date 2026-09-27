@@ -4,7 +4,13 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(__dirname + '/index.html', 'utf8');
-const script = html.match(/<script>([\s\S]*)<\/script>/i)[1];
+const scriptMatch = html.match(/<script>([\s\S]*)<\/script>/i);
+
+if (!scriptMatch) {
+  throw new Error('Could not find the calculator script block in index.html.');
+}
+
+const script = scriptMatch[1];
 
 const createCalculator = () => {
   const display = { textContent: '0' };
